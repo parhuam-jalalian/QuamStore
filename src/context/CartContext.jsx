@@ -1,6 +1,10 @@
 import { createContext, useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
-import { addToCart as apiAddToCart, removeFromCart as apiRemoveFromCart, fetchCart } from '../api/cart';
+import {
+  addToCart as apiAddToCart,
+  removeFromCart as apiRemoveFromCart,
+  fetchCart,
+} from '../api/cart';
 
 export const CartContext = createContext();
 
@@ -11,16 +15,7 @@ export const CartProvider = ({ children }) => {
     const userId = localStorage.getItem('userId');
     if (userId) {
       fetchCart(userId)
-        .then((items) => {
-          const parsed = items.map((item) => ({
-            id: Number(item.id?.N),
-            title: item.title?.S,
-            price: parseFloat(item.price?.N),
-            quantity: Number(item.quantity?.N),
-            image: item.image?.S || null,
-          }));
-          setCartItems(parsed);
-        })
+        .then((items) => setCartItems(items)) // Already parsed in fetchCart
         .catch((err) => {
           console.error('⚠ Failed to load cart:', err);
           toast.error('⚠ Could not load your cart');
@@ -29,12 +24,14 @@ export const CartProvider = ({ children }) => {
   }, []);
 
   const addToCart = async (product) => {
-    let updatedCart = [];
     const existing = cartItems.find((item) => item.id === product.id);
+    let updatedCart;
 
     if (existing) {
       updatedCart = cartItems.map((item) =>
-        item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+        item.id === product.id
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
       );
       toast.info(`Increased quantity of "${product.title}"`);
     } else {
@@ -54,7 +51,7 @@ export const CartProvider = ({ children }) => {
             title: product.title,
             price: product.price,
             quantity: 1,
-            image: product.image || '', 
+            image: product.image || '',
           },
         });
       } catch (err) {
@@ -70,7 +67,9 @@ export const CartProvider = ({ children }) => {
 
     if (removedItem) {
       toast.dismiss('remove-toast');
-      toast.warn(`Removed "${removedItem.title}" from cart`, { toastId: 'remove-toast' });
+      toast.warn(`Removed "${removedItem.title}" from cart`, {
+        toastId: 'remove-toast',
+      });
       setCartItems(updatedCart);
 
       const userId = localStorage.getItem('userId');
@@ -83,7 +82,9 @@ export const CartProvider = ({ children }) => {
   };
 
   return (
-    <CartContext.Provider value={{ cartItems, setCartItems, addToCart, removeFromCart }}>
+    <CartContext.Provider
+      value={{ cartItems, setCartItems, addToCart, removeFromCart }}
+    >
       {children}
     </CartContext.Provider>
   );

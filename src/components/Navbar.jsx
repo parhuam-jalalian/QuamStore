@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { FaShoppingBag } from 'react-icons/fa';
 import ThemeToggle from './ThemeToggle';
 import { useAuth } from '../context/AuthContext';
+import { CartContext } from '../context/CartContext';
 
 const Navbar = ({ searchTerm, setSearchTerm, suggestions = [] }) => {
   const [placeholder, setPlaceholder] = useState('Search products...');
@@ -11,6 +12,7 @@ const Navbar = ({ searchTerm, setSearchTerm, suggestions = [] }) => {
   const intervalRef = useRef(null);
   const location = useLocation();
   const { userId, logout } = useAuth();
+  
 
   const pageTitleMap = {
     '/login': 'Sign In',
