@@ -1,6 +1,6 @@
 # 🛍️ QuamStore – Serverless E-Commerce Platform
 
-QuamStore is a fully serverless e-commerce web app built with **React**, **Vite**, and **TailwindCSS** on the frontend, and **AWS Lambda**, **API Gateway**, and **DynamoDB** on the backend. The app allows users to browse products, manage a shopping cart, sign up, log in, and simulate checkouts — all backed by a cloud-native architecture.
+QuamStore is a fully serverless e-commerce web app built with **React**, **Vite**, and **CSS** on the frontend, and **AWS Lambda**, **API Gateway**, and **DynamoDB** on the backend. The app allows users to browse products, manage a shopping cart, sign up, log in, and simulate checkouts — all backed by a cloud-native architecture.
 
 ## 📦 Features
 
